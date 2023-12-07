@@ -10,94 +10,84 @@ function ShowAdmin() {
   const { bookInfo, editBook, deleteBook } = useContext(BookContext);
   const [searchTerm, SetsearchTerm] = useState("");
   const [selectedBook, setSelectedBook] = useState(null);
+
   const handleSearch = (e) => {
     SetsearchTerm(e.target.value);
   };
+
   const handleEdit = (book) => {
-    console.log("Editing book with ISBN: ", book);
     setSelectedBook(book);
     setModalOpen(true);
   };
+
   const handleSave = (updatedBook) => {
-    editBook(updatedBook); 
-    setSelectedBook(null); 
+    
+    editBook(updatedBook);
+    setSelectedBook(null);
+    setModalOpen(false);
   };
+
   const handleDelete = (isbn) => {
     deleteBook(isbn);
   };
 
- 
-
   const handleCancel = () => {
-    reset(); 
+    reset();
   };
+
   return (
-    <div>
+    <div className="container mx-auto mt-8">
       <div>
         <input
           type="text"
           placeholder="Search by ISBN..."
           value={searchTerm}
           onChange={handleSearch}
+          className="p-2 border border-gray-300 rounded"
         />
       </div>
 
-      <div className="bookList">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         {bookInfo.map((book) => (
-          <div key={book.isbn} className="bookItem">
-            <p> Book Name :{book.bookName}</p>
-
+          <div key={book.isbn} className="bg-white p-4 rounded shadow">
+            <p className="text-lg font-bold mb-2">Book Name: {book.bookName}</p>
+            
             <button
               type="button"
-              className="btn btn-primary"
-              data-toggle="modal"
-              data-target="#addBooksModal"
-              onClick={() => setModalOpen(true)}
+              onClick={() => handleEdit(book)}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
               Edit
             </button>
-            <div>
-              <div
-                className={`modal ${isModalOpen ? "show" : ""}`}
-                id="editBooksModal"
-                tabIndex="-1"
-                role="dialog"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
-              >
-                <div className="modal-dialog" role="document">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title" id="exampleModalLabel">
-                        {" "}
-                        editBook
-                      </h5>
 
-                      <button
-                        type="button"
-                        className="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                        onClick={() => setModalOpen(false)}
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div className="modal-body">
-                      <BookForm
-                        initialData={selectedBook}
-                        onCancel={handleCancel}
-                        onSave={handleSave}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <button onClick={() => handleDelete(book.isbn)}>Delete</button>
+            <button
+              onClick={() => handleDelete(book.isbn)}
+              className="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Delete
+            </button>
           </div>
         ))}
       </div>
+
+      {selectedBook && (
+        <div className={`fixed top-0 left-0 w-full h-full flex items-center justify-center ${isModalOpen ? "block" : "hidden"}`}>
+          <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+          <div className="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <div className="modal-content py-4 text-left px-6">
+              <BookForm
+                initialData={selectedBook}
+                onCancel={() => {
+                  handleCancel();
+                  setModalOpen(false);
+                }}
+                onSubmit={handleSave}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -23,6 +23,10 @@ const BookForm = ({
       setValue("bookName", initialData.bookName);
       setValue("isbn", initialData.isbn);
       setValue("category", initialData.category);
+      setValue("rowNo", initialData.rowNo);
+      setValue("bookCount", initialData.bookCount);
+      setValue("bookCost", initialData.bookCost);
+
       setIsEdit(true);
     }
   }, [initialData, setValue]);
@@ -31,7 +35,6 @@ const BookForm = ({
     function getRandomInt(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-
     let newISBN;
     do {
       const part1 = getRandomInt(100, 999);
@@ -51,15 +54,18 @@ const BookForm = ({
     reset();
   };
 
-  const handleAddBook = (data) => {
-    onSubmit(data);
+  const handleFormSubmit = (data) => {
+    if (isEdit) {
+      onSubmit({ ...data, isbn: initialData.isbn }); 
+    } else {
+      onSubmit(data);
+    }
     reset();
-
   };
   return (
-    <div>
-      <h2>{formTitle}</h2>
-      <form onSubmit={handleSubmit(handleAddBook)}>
+    <div className="mx-auto max-w-lg">
+      <h2 className="text-2xl font-semibold mb-4">{formTitle}</h2>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
         <div className="form-group">
           <label htmlFor="bookName">Book Name:</label>
           <input
@@ -85,10 +91,10 @@ const BookForm = ({
                 pattern: /^(?:\d{3}-)\d{1,5}-\d{1,7}-\d{1,7}-\d{1,13}$/i,
               })}
             />
-            <div className="input-group-append">
+            <div className="mb-4">
               <button
                 type="button"
-                className="btn btn-outline-secondary"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-2"
                 onClick={generateISBN}
               >
                 Generate ISBN
@@ -185,18 +191,21 @@ const BookForm = ({
           )}
         </div>
 
-        <button type="submit" className="btn btn-primary">
-          {isEdit ? "Save" : "Add"}
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          data-toggle="modal"
-          data-target="#addBooksModal"
-          onClick={handleCancel}
-        >
-          Cancel
-        </button>
+        <div className="mb-4">
+          <button
+            type="submit"
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 mr-2"
+          >
+            {isEdit ? "Save" : "Add"}
+          </button>
+          <button
+            type="button"
+            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4"
+            onClick={handleCancel}
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );

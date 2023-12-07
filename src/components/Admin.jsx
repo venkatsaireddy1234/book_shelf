@@ -17,63 +17,60 @@ const Admin = () => {
   };
 
   const handleCancel = () => {
-    reset(); // Reset the form after cancel
+    setModalOpen(false);
+    reset(); 
   };
+
   return (
-    <div className="container mt-4">
-      <h2>Add Books</h2>
+    <div className="container mx-auto mt-4">
+      <h2 className="text-2xl font-bold mb-4">Add Books</h2>
       <button
         type="button"
-        className="btn btn-primary"
-        data-toggle="modal"
-        data-target="#addBooksModal"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        onClick={() => setModalOpen(true)}
       >
         Add Books
       </button>
+
       {bookInfo && (
-        <Link to="/showAdmin" className="btn btn-success ml-2">
+        <Link
+          to="/showAdmin"
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 ml-2 rounded"
+        >
           Show AllBooks
         </Link>
       )}
-      <div
-        className={`modal ${isModalOpen ? "show" : ""}`}
-        id="addBooksModal"
-        tabIndex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                Add Books
-              </h5>
 
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-                onClick={() => setModalOpen(false)}
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <BookForm
-                formTitle="Add Book"
-                onSubmit={handleAddBook}
-                onCancel={handleCancel}
-                formReset={reset}
-              />
-            </div>
+      <div
+        className={`fixed top-0 left-0 w-full h-full flex items-center justify-center ${
+          isModalOpen ? "block" : "hidden"
+        }`}
+      >
+        <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+        <div className="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+          <div className="modal-close absolute top-0 right-0 cursor-pointer z-50 p-4">
+            <button
+              className="text-white text-3xl"
+              onClick={() => setModalOpen(false)}
+            >
+              &times;
+            </button>
+          </div>
+
+          <div className="modal-content py-4 text-left px-6">
+            <BookForm
+              formTitle="Add Book"
+              onSubmit={handleAddBook}
+              onCancel={handleCancel}
+              formReset={reset}
+            />
           </div>
         </div>
       </div>
 
       {formSubmitted && (
-        <p className="mt-3 text-success">Form submitted successfully!</p>
+        <p className="mt-3 text-green-500">Form submitted successfully!</p>
       )}
     </div>
   );
