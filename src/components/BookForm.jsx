@@ -62,6 +62,10 @@ const BookForm = ({
     }
     reset();
   };
+  const handleInput = (e) => {
+    const value = parseInt(e.target.value, 10);
+    setValue(e.target.name, value > 0 ? value : 1);
+  };
   return (
     <div className="mx-auto max-w-lg">
       <h2 className="text-2xl font-semibold mb-4">{formTitle}</h2>
@@ -72,7 +76,7 @@ const BookForm = ({
             type="text"
             className={`form-control ${errors.bookName ? "is-invalid" : ""}`}
             id="bookName"
-            {...register("bookName", { required: true })}
+            {...register("bookName", { required: true, min: 20 })}
           />
           {errors.bookName && (
             <div className="invalid-feedback">Book Name is required</div>
@@ -132,6 +136,7 @@ const BookForm = ({
               min: 1,
               pattern: /^[1-9]\d*$/,
             })}
+            onInput={handleInput}
           />
           {errors.rowNo && (
             <div className="invalid-feedback">Please enter a valid Row No</div>
@@ -148,6 +153,7 @@ const BookForm = ({
               min: 1,
               pattern: /^[1-9]\d*$/,
             })}
+            onInput={handleInput}
           />
           {errors.bookCount && (
             <div className="invalid-feedback">
@@ -183,6 +189,7 @@ const BookForm = ({
               min: 1,
               pattern: /^[1-9]\d*$/,
             })}
+            onInput={handleInput}
           />
           {errors.bookCost && (
             <div className="invalid-feedback">

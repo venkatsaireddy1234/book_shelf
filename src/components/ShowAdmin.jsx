@@ -55,8 +55,8 @@ function ShowAdmin() {
                 to={`/showBook/${book.isbn}`}
                 className="hover:no-underline"
               >
-                <div className="bg-white p-4 rounded shadow cursor-pointer transition-transform transform group-hover:scale-105">
-                  <p className="text-lg font-bold mb-2">
+                <div className="bg-white p-4 rounded shadow cursor-pointer transition-transform transform group-hover:scale-105 ">
+                  <p className="text-lg font-bold mb-2 overflow-hidden overflow-ellipsis whitespace-nowrap">
                     Book Name: {book.bookName}
                   </p>
                 </div>
