@@ -18,7 +18,7 @@ const Admin = () => {
 
   const handleCancel = () => {
     setModalOpen(false);
-    reset(); 
+    reset();
   };
 
   return (
@@ -35,9 +35,9 @@ const Admin = () => {
       {bookInfo && (
         <Link
           to="/showAdmin"
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 ml-2 rounded"
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 ml-2  rounded hover:no-underline"
         >
-          Show AllBooks
+          Show All Books
         </Link>
       )}
 

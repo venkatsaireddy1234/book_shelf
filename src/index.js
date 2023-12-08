@@ -24,10 +24,7 @@ const appRouter = createBrowserRouter([
         path: "/admin",
         element: <Admin />,
       },
-      {
-        path: "/showAdmin",
-        element: <ShowAdmin />,
-      },
+      
       { path: "/showBook/:bookId", element: <ShowBook /> },
       { path: "/qrScanner", element: <QRScanner /> },
 

@@ -26,7 +26,7 @@ const BookForm = ({
       setValue("rowNo", initialData.rowNo);
       setValue("bookCount", initialData.bookCount);
       setValue("bookCost", initialData.bookCost);
-
+      setValue("availability", initialData.availability);
       setIsEdit(true);
     }
   }, [initialData, setValue]);
@@ -56,7 +56,7 @@ const BookForm = ({
 
   const handleFormSubmit = (data) => {
     if (isEdit) {
-      onSubmit({ ...data, isbn: initialData.isbn }); 
+      onSubmit({ ...data, isbn: initialData.isbn });
     } else {
       onSubmit(data);
     }
